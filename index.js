@@ -5,14 +5,14 @@ import { parser } from './parser.js';
 
 function main() {
 
-    let args = process.argv.slice(2);
+    const args = process.argv.slice(2);
 
     if (args.length < 2) {
         console.log('USAGE: node index.js test-files/good.yaml test-files/schema.yaml');
         return;
     }
 
-    let [inputFile, schemaFile] = args;
+    const [inputFile, schemaFile] = args;
 
     console.log(`input file: ${inputFile}`);
     console.log(`schema file: ${schemaFile}`);

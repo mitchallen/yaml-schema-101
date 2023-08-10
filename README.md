@@ -9,6 +9,10 @@ yaml-schema-101
 node index.js test-files/good.yaml test-files/schema.yaml
 ```
 
+```sh
+npm start -- test-files/good.yaml test-files/schema.yaml
+```
+
 ### Fail validation 
 
 ```sh
