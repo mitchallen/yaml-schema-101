@@ -5,27 +5,26 @@ import { parser } from './parser.js';
 
 function main() {
 
-    const args = process.argv.slice(2);
+    const [, , ...args] = process.argv;
 
     if (args.length < 2) {
-        console.log('USAGE: node index.js test-files/good.yaml test-files/schema.yaml');
+        console.log('USAGE: node index.js test-files/good.yaml test-files/schema.json');
         return;
     }
 
-    const [inputFile, schemaFile] = args;
+    const [inputYamlFile, schemaJsonFile] = args;
 
-    console.log(`input file: ${inputFile}`);
-    console.log(`schema file: ${schemaFile}`);
+    console.log(`input file: ${inputYamlFile}`);
+    console.log(`schema file: ${schemaJsonFile}`);
 
-    let json = parser( inputFile, schemaFile );
+    let isValid = parser(inputYamlFile, schemaJsonFile);
 
-    if( !json ) {
+    if (!isValid) {
         console.error(`[ERROR] input not valid!`);
         return;
     }
 
-    console.log(JSON.stringify(json,null,2))
-    
+    console.log(isValid)
 }
 
 main();

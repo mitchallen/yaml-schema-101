@@ -4,27 +4,25 @@
 import { readFileSync } from 'fs';
 import Ajv from 'ajv';
 import * as yaml from 'js-yaml';
-import * as prettyYaml from 'json-to-pretty-yaml';
 
 const ajv = new Ajv();
 
-export function parser(inputYamlFile, schemaYamlFile) {
+export function parser(inputYamlFile, schemaJsonFile) {
 
-    const [inputJson, schemaJson] = [
-        inputYamlFile,
-        schemaYamlFile
-    ].map(yamlFile => yaml.load(readFileSync(yamlFile, 'utf8')));
+    // convert input yaml file to json
+    const inputJson = yaml.load(readFileSync(inputYamlFile, 'utf8'))
+    // load schema json file
+    const schemaJson = JSON.parse(readFileSync(schemaJsonFile, 'utf8'))
 
+    // validate input json against schema json
     const isValid = ajv.validate(schemaJson, inputJson);
 
     if (!isValid) {
         console.error(JSON.stringify(ajv.errors, null, 2));
-        return undefined;
+        return false;
     }
 
     console.info('[INFO] Valid!');
 
-    console.log(readFileSync(inputYamlFile, 'utf8'));
-
-    return prettyYaml.stringify(inputJson);
+    return true;
 }
