@@ -8,7 +8,7 @@ function main() {
     const [, , ...args] = process.argv;
 
     if (args.length < 2) {
-        console.log('USAGE: node index.js test-files/good.yaml test-files/schema.json');
+        console.log('USAGE: node index.js (file).yaml (schema).json');
         return;
     }
 
