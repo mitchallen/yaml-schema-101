@@ -9,20 +9,18 @@ const ajv = new Ajv();
 
 export function parser(inputYamlFile, schemaJsonFile) {
 
+    // define a function to read utf8 files
+    const readUtf8 = (file) => readFileSync(file, 'utf8');
+
     // convert input yaml file to json
-    const inputJson = yaml.load(readFileSync(inputYamlFile, 'utf8'))
+    const inputJson = yaml.load(readUtf8(inputYamlFile));
+
     // load schema json file
-    const schemaJson = JSON.parse(readFileSync(schemaJsonFile, 'utf8'))
+    const schemaJson = JSON.parse(readUtf8(schemaJsonFile));
 
     // validate input json against schema json
     const isValid = ajv.validate(schemaJson, inputJson);
 
-    if (!isValid) {
-        console.error(JSON.stringify(ajv.errors, null, 2));
-        return false;
-    }
-
-    console.info('[INFO] Valid!');
-
-    return true;
+    // return response and errors (if any)
+    return [isValid, ajv.errors];
 }

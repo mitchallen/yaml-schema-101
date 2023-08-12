@@ -17,14 +17,19 @@ function main() {
     console.log(`input file: ${inputYamlFile}`);
     console.log(`schema file: ${schemaJsonFile}`);
 
-    let isValid = parser(inputYamlFile, schemaJsonFile);
+    const [isValid, err] = parser(inputYamlFile, schemaJsonFile);
 
-    if (!isValid) {
+    console.log(isValid)
+
+    if (err) {
         console.error(`[ERROR] input not valid!`);
+        console.error(JSON.stringify(err, null, 2));
         return;
     }
 
-    console.log(isValid)
+    if( isValid ) {
+        console.info('[INFO] Valid!');
+    }
 }
 
 main();
